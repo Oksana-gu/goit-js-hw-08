@@ -65,5 +65,20 @@ const images = [
   },
 ];
 
-const gallery = document.querySelector('.gallery');
+const gallery = document.querySelector(".gallery");
 
+gallery.insertAdjacentHTML("beforeend", markup);
+
+gallery.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  if (event.target.nodeName !== "IMG") return;
+
+  const largeImageUrl = event.target.dataset.source;
+
+  const instance = basicLightbox.create(`
+    <img src="${largeImageUrl}" width="800" height="600">
+  `);
+
+  instance.show();
+});

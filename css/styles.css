@@ -11,7 +11,12 @@ img {
 }
 .gallery {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    gap: 24px;
+    row-gap: 24px;
+    column-gap: 24px;
+    margin: 100px;
+}
+.gallery-image {
+    width: 320px;
+    height: 200px;
 }
