@@ -2,83 +2,103 @@
 const images = [
   {
     preview:
-      'images/foto1.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
     original:
-      'images/foto1-1.jpg',
-    description: 'foto 1',
+      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg',
+    description: 'Hokkaido Flower',
   },
   {
     preview:
-      'images/foto2.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677__340.jpg',
     original:
-      'images/foto2-1.jpg',
-    description: 'foto 2',
+      'https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677_1280.jpg',
+    description: 'Container Haulage Freight',
   },
   {
     preview:
-      'images/foto3.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/16/09/47/beach-4206785__340.jpg',
     original:
-      'images/foto3-1.jpg',
-    description: 'foto 3',
+      'https://cdn.pixabay.com/photo/2019/05/16/09/47/beach-4206785_1280.jpg',
+    description: 'Aerial Beach View',
   },
   {
     preview:
-      'images/foto4.jpg',
+      'https://cdn.pixabay.com/photo/2016/11/18/16/19/flowers-1835619__340.jpg',
     original:
-      'images/foto4-4.jpg',
-    description: 'foto 4',
+      'https://cdn.pixabay.com/photo/2016/11/18/16/19/flowers-1835619_1280.jpg',
+    description: 'Flower Blooms',
   },
   {
     preview:
-      'images/foto5.jpg',
+      'https://cdn.pixabay.com/photo/2018/09/13/10/36/mountains-3674334__340.jpg',
     original:
-      'images/foto5-1.jpg',
-    description: 'foto 5',
+      'https://cdn.pixabay.com/photo/2018/09/13/10/36/mountains-3674334_1280.jpg',
+    description: 'Alpine Mountains',
   },
   {
     preview:
-      'images/foto6.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/16/23/04/landscape-4208571__340.jpg',
     original:
-      'images/foto6-1.jpg',
-    description: 'foto 6',
+      'https://cdn.pixabay.com/photo/2019/05/16/23/04/landscape-4208571_1280.jpg',
+    description: 'Mountain Lake Sailing',
   },
   {
     preview:
-      'images/foto7.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/17/09/27/the-alps-4209272__340.jpg',
     original:
-      'images/foto7-1.jpg',
-    description: 'foto 7',
+      'https://cdn.pixabay.com/photo/2019/05/17/09/27/the-alps-4209272_1280.jpg',
+    description: 'Alpine Spring Meadows',
   },
   {
     preview:
-      'images/foto8.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/16/21/10/landscape-4208255__340.jpg',
     original:
-      'images/foto8-1.jpg',
-    description: 'foto 8',
+      'https://cdn.pixabay.com/photo/2019/05/16/21/10/landscape-4208255_1280.jpg',
+    description: 'Nature Landscape',
   },
   {
     preview:
-      'images/foto9.jpg',
+      'https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843__340.jpg',
     original:
-     'images/foto9-1.jpg',
-    description: 'foto 9',
+      'https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843_1280.jpg',
+    description: 'Lighthouse Coast Sea',
   },
 ];
 
 const gallery = document.querySelector(".gallery");
 
-gallery.insertAdjacentHTML("beforeend", markup);
+const markup = images
+  .map(
+    ({ preview, original, description }) => `
+      <li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+          <img
+            class="gallery-image"
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}"
+          />
+        </a>
+      </li>
+    `
+  )
+  .join('');
 
-gallery.addEventListener("click", (event) => {
-  event.preventDefault();
+gallery.insertAdjacentHTML('beforeend', markup);
 
-  if (event.target.nodeName !== "IMG") return;
+gallery.addEventListener('click', onGalleryClick);
 
-  const largeImageUrl = event.target.dataset.source;
+function onGalleryClick(evt) {
+  evt.preventDefault();
+
+  const isImg = evt.target.classList.contains('gallery-image');
+  if (!isImg) return;
+
+  const largeImgUrl = evt.target.dataset.source;
 
   const instance = basicLightbox.create(`
-    <img src="${largeImageUrl}" width="800" height="600">
+    <img src="${largeImgUrl}" width="800" height="600" alt="${evt.target.alt}">
   `);
 
   instance.show();
-});
+}
